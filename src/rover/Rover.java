@@ -1,15 +1,37 @@
 package rover;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public class Rover {
 
-    private static int mX, mY;
-    private int coordinate;
+    private int x, y;
     private char rotation;
-    //rotation coordinate etkisi
-    private static HashMap<Character, Integer> keyMap = new HashMap<Character, Integer>();
+
+    public char getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(char rotation) {
+        this.rotation = rotation;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
     //iterasyon icin
     private static ArrayList<Character> rotateList = new ArrayList<Character>() {{
         add('N');
@@ -20,31 +42,20 @@ public class Rover {
 
 
     /* x ve y degerleri coordinate adlı tek degiskende tutulur*/
-    public Rover(int x, int y, char rotation) {
-        this.coordinate = mY * y + x;
+    public Rover(int x, int y, char rotation, Plateau plateau) {
+        this.x = x;
+        this.y = y;
         this.rotation = rotation;
     }
 
     /*hareket mapdeki integer bilgisi ile yapılır*/
-    public void move() {
-        int x = coordinate % mY;
-        int y = coordinate / mY;
+    public void move(Plateau plateau) {
 
-        if (rotation == 'N' && y == mY - 1 || (rotation == 'S' && y == 0) || (rotation == 'W' && x == 0) || (rotation == 'E' && x == mX - 1)) {
-            return;
-        }
-        coordinate += keyMap.get(rotation);
-       /*
-        if (rotation == 'N' && y != mY) y +=1;
-        if (rotation == 'S' && y != 0) y -=1;
-        if (rotation == 'E' && x != mX) x +=1;
-        if (rotation == 'W' && x != 0) x -=1;
-*/
-    }
+        if (rotation == 'N' && y != plateau.getmY()) y += 1;
+        if (rotation == 'S' && y != 0) y -= 1;
+        if (rotation == 'E' && x != plateau.getmX()) x += 1;
+        if (rotation == 'W' && x != 0) x -= 1;
 
-
-    public String getCoordinate() {
-        return coordinate % mY + " " + coordinate / mY + " " + rotation;
     }
 
     public void l_rotate() {
@@ -65,19 +76,6 @@ public class Rover {
                 return;
             }
         }
-    }
-
-    /* Alanın Max boyutu belirlenir*/
-    public static void setEndCord(String input) {
-        int spc = input.indexOf(' ');
-        mX = Integer.parseInt(input.substring(0, spc)) + 1;
-        mY = Integer.parseInt(input.substring(spc + 1)) + 1;
-        /*Rover Y hareketi icin Alan boyutu bilinmesi gerekli*/
-        keyMap.clear();
-        keyMap.put('N', mX);
-        keyMap.put('E', +1);
-        keyMap.put('S', -1 * mX);
-        keyMap.put('W', -1);
     }
 
 
