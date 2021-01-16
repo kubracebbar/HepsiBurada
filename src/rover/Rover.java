@@ -7,6 +7,7 @@ public class Rover {
 
     private int x, y;
     private char rotation;
+    private Plateau plateau;
 
     public char getRotation() {
         return rotation;
@@ -46,15 +47,30 @@ public class Rover {
         this.x = x;
         this.y = y;
         this.rotation = rotation;
+        this.plateau = plateau;
     }
 
     /*hareket mapdeki integer bilgisi ile yapılır*/
-    public void move(Plateau plateau) {
+    public void move() {
+
+        int tx = x;
+        int ty = y;
 
         if (rotation == 'N' && y != plateau.getmY()) y += 1;
         if (rotation == 'S' && y != 0) y -= 1;
         if (rotation == 'E' && x != plateau.getmX()) x += 1;
         if (rotation == 'W' && x != 0) x -= 1;
+
+        for (int i = 0; i < (plateau.getRovers().size() - 1); i++) {
+            Rover rover = plateau.getRovers().get(i);
+            if (rover.x == x && rover.y == y) {
+                System.out.println("İstenilen Konumda Başka Bir Rover Bulunuyor");
+                x = tx;
+                y = ty;
+                return;
+            }
+
+        }
 
     }
 
